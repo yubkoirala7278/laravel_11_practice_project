@@ -1,7 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// Authentication
+Auth::routes([
+    "verify" => true
+]);
+
+// Public
+require __DIR__ . '/public.php';
+
+// admin
+Route::middleware(['auth.admin', 'verified'])->prefix('admin')->group(function () {
+    require __DIR__ . '/admin.php';
 });
