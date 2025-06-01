@@ -22,3 +22,6 @@ Route::get('/broadcast_private', function () {
     broadcast(new PrivateNotificationEvent($userId, $message));
     return 'Private Message BroadCasted';
 });
+
+
+Route::post('/user',[HomeController::class,'store'])->name('user.store');
