@@ -16,7 +16,3 @@ require __DIR__ . '/public.php';
 Route::middleware(['auth.admin', 'verified'])->prefix('admin')->group(function () {
     require __DIR__ . '/admin.php';
 });
-
-
-
-Route::post('/notifications/mark-as-read', [HomeController::class, 'markAsRead'])->middleware('auth');
