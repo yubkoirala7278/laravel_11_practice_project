@@ -14,4 +14,12 @@ class HomeController extends Controller
             return back()->with('error',$th->getMessage());
         }
     }
+
+    public function about(){
+         try{
+            return view('admin.about');
+        }catch(\Throwable $th){
+            return back()->with('error',$th->getMessage());
+        }
+    }
 }
