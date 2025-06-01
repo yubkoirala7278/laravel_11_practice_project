@@ -6,6 +6,12 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+// Public channel
 Broadcast::channel('public-messages', function () {
     return true;
+});
+
+// private channel
+Broadcast::channel('user.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
