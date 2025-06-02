@@ -47,14 +47,21 @@
             <!--navigation-->
             <ul class="metismenu" id="menu">
                 <li class="active">
-                    <a href="{{route('admin.home')}}">
+                    <a href="{{ route('admin.home') }}">
                         <div class="parent-icon"><i class='bx bx-home-alt'></i>
                         </div>
                         <div class="menu-title">Dashboard</div>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="{{route('users.index')}}">
+                    <a href="{{ route('admin.role') }}">
+                        <div class="parent-icon"><i class='bx bx-id-card'></i></div>
+                        <div class="menu-title">Role</div>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{{ route('users.index') }}">
                         <div class="parent-icon"><i class='bx bx-user'></i></div>
                         <div class="menu-title">User</div>
                     </a>
@@ -253,7 +260,7 @@
     </div>
 
     @yield('model')
-     <!-- Purchase & Withdraw Modal -->
+    <!-- Purchase & Withdraw Modal -->
     <div class="modal fade" id="withdrawInsuranceModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -292,7 +299,8 @@
                                         style="display:flex; justify-content: space-between;">You USDT deposit
                                         address</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="withdrawAmount" value="0.0000">
+                                        <input type="text" class="form-control" id="withdrawAmount"
+                                            value="0.0000">
                                         <a class="input-group-text max-amt"><i class="bx bx-refresh"></i></a>
                                         <a class="input-group-text max-amt"><i class="bx bx-copy-alt"></i></a>
                                     </div>
@@ -302,7 +310,8 @@
                                         <img src="/img/qr.png" alt="">
                                     </div>
                                 </div>
-                                <p class="text-center mb-0">Only send USDT to this address, 1 confirmation required.</p>
+                                <p class="text-center mb-0">Only send USDT to this address, 1 confirmation required.
+                                </p>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="primary-pills-profile" role="tabpanel">
@@ -320,7 +329,8 @@
                                         style="display:flex; justify-content: space-between;"><span>Amount<span
                                                 class="cumpolsary">*</span></span> <span>$1,238.54</span></label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="withdrawAmount" value="0.0000">
+                                        <input type="text" class="form-control" id="withdrawAmount"
+                                            value="0.0000">
                                         <a class="input-group-text max-amt">Max</a>
                                     </div>
                                     <p class="error">Amount cannot be greater then max amount</p>
@@ -371,14 +381,15 @@
                 <div class="modal-body">
                     <form class="row g-3" id="sendBonus" action="#">
                         <div class="col-md-12">
-                            <label for="input04" class="form-label d-flex justify-content-between">Reason (Optional)<span
-                                    class="text-secondary">0/350</span></label>
+                            <label for="input04" class="form-label d-flex justify-content-between">Reason
+                                (Optional)<span class="text-secondary">0/350</span></label>
                             <textarea class="form-control" id="input40" name="address" rows="5" placeholder="Write reason here ..."></textarea>
                         </div>
                         <div class="col-md-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="input24" checked>
-                                <label class="form-check-label" for="input24"><span class="text-primary">Withdraw Tokens
+                                <label class="form-check-label" for="input24"><span class="text-primary">Withdraw
+                                        Tokens
                                         & Disable</span></label>
                             </div>
                         </div>
@@ -406,54 +417,7 @@
     <script src="/plugins//datatable/js/dataTables.bootstrap5.min.js"></script>
     <script src="/js/moment.min.js"></script>
     <script src="/js/dataTables.dateTime.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var tables = [{
-                    tableId: 'user-list-table',
-                    minId: 'min',
-                    maxId: 'max'
-                },
-                {
-                    tableId: 'user-list-table01',
-                    minId: 'min01',
-                    maxId: 'max01'
-                }
-            ];
-
-            tables.forEach(function(tableData) {
-                var minDate = new DateTime($('#' + tableData.minId), {
-                    format: 'YYYY MM Do'
-                });
-                var maxDate = new DateTime($('#' + tableData.maxId), {
-                    format: 'YYYY MM Do'
-                });
-
-                var table = $('#' + tableData.tableId).DataTable();
-
-                $('#' + tableData.minId + ', #' + tableData.maxId).on('change', function() {
-                    table.draw();
-                });
-
-                // Custom filtering function which will search data in the specified date column between two values
-                $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-                    var min = minDate.val();
-                    var max = maxDate.val();
-                    var date = new Date(data[
-                        5]); // Update the index to match the correct date column
-
-                    if (
-                        (min === null && max === null) ||
-                        (min === null && date <= max) ||
-                        (min <= date && max === null) ||
-                        (min <= date && date <= max)
-                    ) {
-                        return true;
-                    }
-                    return false;
-                });
-            });
-        });
-    </script>
+   @stack('script')
 </body>
 
 </html>

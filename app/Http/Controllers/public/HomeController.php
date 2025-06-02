@@ -19,15 +19,4 @@ class HomeController extends Controller
         }
     }
 
-    public function contactForm(Request $request)
-    {
-        try {
-            $contact = Contact::create($request->except('_token'));
-            // Fire the event
-            event(new ContactFormEvent($contact));
-            return back()->with('success', 'Contact form created successfully!');
-        } catch (\Throwable $th) {
-            return back()->with('error', $th->getMessage());
-        }
-    }
 }

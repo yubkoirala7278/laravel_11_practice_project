@@ -8,47 +8,53 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="{{ route('users.index') }}"><i class="bx bx-home-alt"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit User</li>
                     </ol>
                 </nav>
             </div>
             <!--end breadcrumb-->
             <div class="card">
                 <div class="card-body">
-                    <h6 class="mb-0 text-uppercase">Create New User</h6>
+                    <h6 class="mb-0 text-uppercase">Edit User</h6>
                     <hr />
-                    <form id="create-user-form" class="row g-3">
+                    <form id="edit-user-form" class="row g-3">
                         @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit-user-id" value="{{ $user->id }}">
                         <div class="col-md-6">
                             <label for="name" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter username">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                         </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                            <label for="password" class="form-label">Password (Leave blank to keep unchanged)</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password">
                         </div>
                         <div class="col-md-6">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm password">
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Select Roles</label>
                             <div class="multi-select-container">
-                                <div class="selected-tags"></div>
+                                <div class="selected-tags">
+                                    @foreach ($user->roles as $role)
+                                        <div class="tag" data-value="{{ $role->name }}">{{ $role->name }}<span class="remove-tag">×</span></div>
+                                    @endforeach
+                                </div>
                                 <input type="text" class="tag-input form-control" placeholder="Select roles...">
                                 <div class="options-container">
                                     @foreach ($roles as $role)
-                                        <div class="option" data-value="{{ $role->name }}">{{ $role->name }}</div>
+                                        <div class="option {{ $user->hasRole($role->name) ? 'selected' : '' }}" data-value="{{ $role->name }}">{{ $role->name }}</div>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <button type="button" class="btn btn-primary" id="save-user">Save</button>
+                            <button type="button" class="btn btn-primary" id="save-edit-user">Update</button>
                             <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
@@ -102,9 +108,10 @@
                 });
             });
 
-            // Create user
-            $('#save-user').on('click', function () {
-                const form = $('#create-user-form');
+            // Update user
+            $('#save-edit-user').on('click', function () {
+                const form = $('#edit-user-form');
+                const userId = form.find('#edit-user-id').val();
                 const name = form.find('#name').val();
                 const email = form.find('#email').val();
                 const password = form.find('#password').val();
@@ -114,8 +121,8 @@
                 }).get();
 
                 $.ajax({
-                    url: '{{ route("users.store") }}',
-                    method: 'POST',
+                    url: '{{ route("users.update", ":id") }}'.replace(':id', userId),
+                    method: 'PUT',
                     data: {
                         _token: '{{ csrf_token() }}',
                         name: name,
