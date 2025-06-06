@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Scopes\ActiveUserScope;
 use App\Notifications\CustomResetPasswordNotification;
 use App\Notifications\CustomVerifyEmail;
 use App\Notifications\CustomVerifyEmailNotification;
@@ -70,5 +71,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveUserScope);
     }
 }

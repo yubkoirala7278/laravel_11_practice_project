@@ -11,16 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin']);
-    }
 
     // List all users
     public function index()
     {
         try {
-            $users = User::with('roles')->get();
+            $users = User::with('roles')->paginate(10);
             $roles = Role::all();
             return view('admin.user.index', compact('users', 'roles'));
         } catch (\Throwable $th) {
