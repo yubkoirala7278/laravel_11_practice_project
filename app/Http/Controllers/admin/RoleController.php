@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin']);
-    }
 
     // List all roles
     public function index()

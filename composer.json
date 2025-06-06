@@ -7,10 +7,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cixware/esewa-php-sdk": "^3.1",
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.5",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "remotemerge/esewa-php-sdk": "^3.1",
         "spatie/laravel-permission": "^6.19"
     },
     "require-dev": {
